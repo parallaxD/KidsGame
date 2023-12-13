@@ -12,7 +12,6 @@ public class WaveController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Enemies.Count == 0) _enemySpawner.SpawnEnemy();
-        print(Enemies.Count);
+        if (Enemies.Count == 0 && !GameManager.IsGamePaused) _enemySpawner.SpawnEnemy();
     }
 }

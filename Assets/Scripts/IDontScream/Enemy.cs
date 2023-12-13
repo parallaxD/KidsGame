@@ -22,11 +22,23 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveToTarget();
+        if (!GameManager.IsGamePaused) MoveToTarget();
+        if (GameManager.IsGamePaused)
+        {
+            _rb.bodyType = RigidbodyType2D.Static;
+        }
+        if (!GameManager.IsGamePaused && _rb.bodyType != RigidbodyType2D.Dynamic)
+        {
+            _rb.bodyType = RigidbodyType2D.Dynamic;
+        }
     }
 
     private void Update()
     {
+        if (GameManager.IsGamePaused)
+        {
+            
+        }
         Vector3 direction = _target.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         direction.Normalize();
@@ -35,6 +47,10 @@ public class Enemy : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.IsGamePaused)
+        {
+            return;
+        }
         Destroy(gameObject);
     }
 
