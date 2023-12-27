@@ -9,11 +9,16 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        _scoreText.text = $"Правильных ответов: 0";
+        _scoreText.text = $"0/10";
     }
 
     public void UpdateScoreText(int score)
     {
-        _scoreText.text = $"Правильных ответов: {score}";
+        _scoreText.text = $"{score}/10";
+    }
+
+    public void Reset()
+    {
+        _scoreText.text = $"0/10";
     }
 }

@@ -8,6 +8,9 @@ public class ButtonData : MonoBehaviour
 {
     public bool IsRightAnswer;
 
+    public AudioClip _incorrectSound;
+
+
 
     private void Awake()
     {
@@ -17,5 +20,13 @@ public class ButtonData : MonoBehaviour
             gameObject.AddComponent<Button>();
         }
 
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = _incorrectSound;
+        audioSource.outputAudioMixerGroup = SoundManager.OutputMixer;
     }
+
+
+
+
+
 }

@@ -9,10 +9,13 @@ public class ButtonHandler : MonoBehaviour
 
     private ResultHandler _resultHandler;
     private UIController _uiController;
+    private AudioSource _audioSource;
 
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         _resultHandler = GameObject.Find("ResultHandler").GetComponent<ResultHandler>();
 
         _uiController = GameObject.Find("UIController").GetComponent<UIController>();
@@ -27,12 +30,15 @@ public class ButtonHandler : MonoBehaviour
         if (_buttonData.IsRightAnswer)
         {
             _resultHandler.IncreaseScore();
+           
         }
         else
         {
             _resultHandler.DecreaseScore();
         }
 
-        _uiController.UpdateScoreText(_resultHandler.CurrentScore);
+        AudioSource.PlayClipAtPoint(_audioSource.clip, Camera.main.transform.position);
+
+        _uiController.UpdateScoreText(ResultHandler.CurrentScore);
     }
 }

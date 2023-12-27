@@ -22,6 +22,8 @@ public class ObjectsController : MonoBehaviour
         
         [SerializeField] private SceneCleaner _sceneCleaner;
 
+        [SerializeField] private AudioClip _rightAnswerCLip;
+
 
     void Start()
     {
@@ -31,9 +33,9 @@ public class ObjectsController : MonoBehaviour
                 ButtonPrefabs[i].GetComponent<ButtonData>().IsRightAnswer = false;
             }
 
-            _buttonsPositions.Add(new Vector2(200f, 0f));
-            _buttonsPositions.Add(new Vector2(500f, 0f));
-            _buttonsPositions.Add(new Vector2(800f, 0f));
+            _buttonsPositions.Add(new Vector2(-650f, -680f));
+            _buttonsPositions.Add(new Vector2(0f, -680f));
+            _buttonsPositions.Add(new Vector2(650f, -680f));
 
             StartIteration();       
     }
@@ -47,9 +49,15 @@ public class ObjectsController : MonoBehaviour
 
         GameObject objectPrefab = _buttonObjectDictionary[_buttonsOnScreenPrefabs[randomIndex]];
 
-        _buttonsOnScreen[randomIndex].GetComponent<ButtonData>().IsRightAnswer = true;
 
-        Instantiate(objectPrefab, new Vector3(center.x, center.y, 0f), Quaternion.identity);
+        _buttonsOnScreen[randomIndex].GetComponent<ButtonData>().IsRightAnswer = true;
+        _buttonsOnScreen[randomIndex].GetComponent<AudioSource>().clip = _rightAnswerCLip;
+
+        var obj = Instantiate(objectPrefab, new Vector3(0, 1f, 0f), Quaternion.identity);
+
+        obj.transform.SetParent(_mainCanvas.transform);
+        obj.transform.SetSiblingIndex(3);
+        obj.transform.localScale = new Vector3(1, 1, 1);
     }
 
     void SpawnButtons()
@@ -57,7 +65,8 @@ public class ObjectsController : MonoBehaviour
             RandomizeButtonsList();
             for (int i = 0; i < 3; i++)
             {
-                Button button = Instantiate(ButtonPrefabs[i], _mainCanvas.transform);               
+                Button button = Instantiate(ButtonPrefabs[i], _mainCanvas.transform);
+                button.transform.SetSiblingIndex(i + 4);
                 button.onClick.AddListener(StartIteration);
                 _buttonsOnScreenPrefabs.Add(ButtonPrefabs[i]);
                 _buttonsOnScreen.Add(button);
