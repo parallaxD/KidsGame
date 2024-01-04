@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Needles.unity
     guid: 9d1fa6f16723d094cb2ed85365df250b
+  - enabled: 1
+    path: Assets/Scenes/Story_1.unity
+    guid: fb5b532e356045544bc543e17b721791
+  - enabled: 1
+    path: Assets/Scenes/IntroductionScene.unity
+    guid: 64bf379d1ee44b34e825017efd440277
   m_configObjects: {}
