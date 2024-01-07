@@ -8,4 +8,7 @@ public class DialogueLine
     public DialogueCharacter Character;
     [TextArea(3, 10)]
     public string Line;
+
+    public bool DisableSpriteRenderer;
+    public bool DestroyCharacter;
 }

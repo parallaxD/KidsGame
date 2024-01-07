@@ -12,6 +12,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _characterName;
     [SerializeField] TextMeshProUGUI _dialogueArea;
 
+    [SerializeField] private List<GameObject> _dialogueComponents;
+
     private Queue<DialogueLine> _lines;
 
     [SerializeField] private bool _isActive;
@@ -62,7 +64,19 @@ public class DialogueManager : MonoBehaviour
             _backgroundChanger.ChangeBackgroundImage(_imageToChange);
         }
 
+
+
         DialogueLine currentLine = _lines.Dequeue();
+
+        if (currentLine.DisableSpriteRenderer)
+        {
+            DisableSpriteRenderer(currentLine.Character.CharacterObject);
+        }
+
+        if (currentLine.DestroyCharacter)
+        {
+            DestroyCharacter(currentLine.Character.CharacterObject);
+        }
 
         if (currentLine.Character.Name == "Игрок")
         {
@@ -73,7 +87,7 @@ public class DialogueManager : MonoBehaviour
 
         if (currentLine.Character.CharacterObject != null)
         {
-            currentLine.Character.CharacterObject.GetComponent<Image>().sprite = currentLine.Character.CurrentEmotion;
+            currentLine.Character.CharacterObject.GetComponent<SpriteRenderer>().sprite = currentLine.Character.CurrentEmotion;
         }
 
         StopAllCoroutines();
@@ -96,5 +110,19 @@ public class DialogueManager : MonoBehaviour
     private void EndDialogue()
     {
         _isActive = false;
+        foreach (var component in _dialogueComponents)
+        {
+            Destroy(component);
+        }
+    }
+
+    private void DisableSpriteRenderer(GameObject character)
+    {
+        character.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    private void DestroyCharacter(GameObject character)
+    {
+        Destroy(character);
     }
 }
