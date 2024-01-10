@@ -21,6 +21,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Story_1.unity
     guid: fb5b532e356045544bc543e17b721791
   - enabled: 1
-    path: Assets/Scenes/IntroductionScene.unity
+    path: Assets/Scenes/ThanksScene.unity
     guid: 64bf379d1ee44b34e825017efd440277
+  - enabled: 1
+    path: Assets/Scenes/GuessObjectStory.unity
+    guid: 54d99d8bb8a1b354daead98807c87549
+  - enabled: 1
+    path: Assets/Scenes/NeedlesStory.unity
+    guid: a2069dfd823e3be4f96aba12d584178e
+  - enabled: 1
+    path: Assets/Scenes/IntroductionScene.unity
+    guid: 7ac23dc1b5b9e744e99ba1a5415bf88a
   m_configObjects: {}

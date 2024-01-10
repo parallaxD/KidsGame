@@ -15,4 +15,14 @@ public class GameManager : MonoBehaviour
     {
         IsGamePaused = false;
     }
+
+    public void IncreaseStoryPart()
+    {
+        StoryManager.StoryPart++;
+    }
+
+    public void ResetStoryPart()
+    {
+        StoryManager.StoryPart = 0;
+    }
 }

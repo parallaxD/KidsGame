@@ -8,9 +8,11 @@ public class DialogueTrigger : MonoBehaviour
 
     [SerializeField] private bool _playOnStart;
 
+    [SerializeField] private bool _startMiniGame;
+    [SerializeField] private string _sceneName;
     public void TriggerDialogue()
     {
-        DialogueManager.Instance.StartDialogue(Dialogue);
+        DialogueManager.Instance.StartDialogue(Dialogue, _startMiniGame, _sceneName);
     }
 
     private void Start()
@@ -20,4 +22,5 @@ public class DialogueTrigger : MonoBehaviour
             TriggerDialogue();
         }
     }
+
 }

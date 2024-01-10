@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,8 +19,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private AudioClip _destroyClip;
     [SerializeField] private AudioClip _playerTouchClip;
 
+    [SerializeField] private ProgressBar _progressBar;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+
+    [SerializeField] private WaveController _waveController;
+
     private void Awake()
     {
+        _waveController = GameObject.Find("WaveController").GetComponent<WaveController>();
+        if (!_waveController.IsEndlessGame)
+        {
+            _progressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+            _scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        }
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = _destroyClip;
         _audioSource.outputAudioMixerGroup = SoundManager.OutputMixer;
@@ -26,6 +39,13 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        if (!_waveController.IsEndlessGame)
+        {
+            if (WaveController.KillsCount == 0)
+            {
+                _scoreText.text = $"0/10";
+            }
+        }
         _UIManager = GameObject.Find("UIManager").GetComponent<NeedlesUIController>();
         _rb = GetComponent<Rigidbody2D>();
         _target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -62,30 +82,42 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        Destroy(gameObject);
+        if (!_waveController.IsEndlessGame) DestroyWithIncreaseScore();
+        else DestroyWithoutIncreaseScore();
     }
 
-    private void OnDestroy()
+    private void DestroyWithoutIncreaseScore()
     {
         AudioSource.PlayClipAtPoint(_audioSource.clip, Camera.main.transform.position);
         WaveController.Enemies.Remove(gameObject);
-        WaveController.KillsCount++;
+        Destroy(gameObject);
     }
 
-    private void OnDrawGizmos()
+    private void DestroyWithIncreaseScore()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(transform.position, _target.position);
-        Gizmos.DrawLine(transform.position, Vector3.forward);
+        AudioSource.PlayClipAtPoint(_audioSource.clip, Camera.main.transform.position);
+        WaveController.Enemies.Remove(gameObject);
+
+        Destroy(gameObject);
+        WaveController.KillsCount++;
+
+        _progressBar.CurrentValue++;
+        _scoreText.text = $"{WaveController.KillsCount}/10";
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            AudioSource.PlayClipAtPoint(_playerTouchClip, Camera.main.transform.position);
             Destroy(gameObject);
-            _UIManager.ShowGameOverPanel();
+            AudioSource.PlayClipAtPoint(_playerTouchClip, Camera.main.transform.position);
+            if (!_waveController.IsEndlessGame)
+            {
+                _progressBar.CurrentValue = 0;
+                _scoreText.text = "0/10";
+                _UIManager.ShowGameOverPanel();
+            }
             GameManager.IsGamePaused = true;
         }
     }

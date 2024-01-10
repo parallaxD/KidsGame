@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Destroyable
   - AchievementList
+  - HoldToDisplayText
   layers:
   - Default
   - TransparentFX

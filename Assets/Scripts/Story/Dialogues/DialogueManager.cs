@@ -9,6 +9,8 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
 
+    [SerializeField] private GameObject _dialogueBox;
+
     [SerializeField] TextMeshProUGUI _characterName;
     [SerializeField] TextMeshProUGUI _dialogueArea;
 
@@ -28,6 +30,11 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] private Sprite _imageToChange;
 
+    [SerializeField] private SceneLoader _sceneLoader;
+
+    private bool _startMiniGame;
+    private string _sceneName;
+
 
     void Awake()
     {
@@ -39,8 +46,27 @@ public class DialogueManager : MonoBehaviour
         _lines = new Queue<DialogueLine>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    private void Start()
     {
+        switch (StoryManager.StoryPart)
+        {
+            case 1:
+                _shouldChangeBackground = true;
+                break;
+            case 2:
+                _shouldChangeBackground = false;
+                break;
+        }
+    }
+
+    public void StartDialogue(Dialogue dialogue, bool startMiniGame, string sceneName)
+    {
+        _startMiniGame = startMiniGame;
+        _sceneName = sceneName;
+        if (!_dialogueBox.activeSelf)
+        {
+            _dialogueBox.SetActive(true);
+        }
         _isActive = true;
         _lines.Clear();
         foreach (var dialogueLine in dialogue.DialogueLines)
@@ -70,7 +96,7 @@ public class DialogueManager : MonoBehaviour
 
         if (currentLine.DisableSpriteRenderer)
         {
-            DisableSpriteRenderer(currentLine.Character.CharacterObject);
+            DisableCharacterSpriteRenderer(currentLine.Character.CharacterObject);
         }
 
         if (currentLine.DestroyCharacter)
@@ -109,14 +135,15 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        _isActive = false;
-        foreach (var component in _dialogueComponents)
+        if (_startMiniGame)
         {
-            Destroy(component);
+            _sceneLoader.LoadScene(_sceneName);
         }
+        _isActive = false;
+        gameObject.SetActive(false);
     }
 
-    private void DisableSpriteRenderer(GameObject character)
+    private void DisableCharacterSpriteRenderer(GameObject character)
     {
         character.GetComponent<SpriteRenderer>().enabled = false;
     }
@@ -124,5 +151,14 @@ public class DialogueManager : MonoBehaviour
     private void DestroyCharacter(GameObject character)
     {
         Destroy(character);
+    }
+
+    public bool IsDialogComplete()
+    {
+        if (_isActive)
+        {
+            return false;
+        }
+        return true;
     }
 }
