@@ -153,7 +153,7 @@ public class DialogueManager : MonoBehaviour
         Destroy(character);
     }
 
-    public bool IsDialogComplete()
+    public bool IsDialogueComplete()
     {
         if (_isActive)
         {

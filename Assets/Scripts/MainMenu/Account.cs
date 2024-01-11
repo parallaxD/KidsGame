@@ -29,8 +29,9 @@ public class Account : MonoBehaviour
     {
         foreach (var achievement in _achievementManager.AchievementsList)
         {
-            if (PlayerPrefs.GetInt(achievement.name) == 1)
+            if (PlayerPrefs.GetInt(achievement.Name) == 1)
             {
+                print(achievement.name);
                 achievement.transform.gameObject.SetActive(true);
             }
         }

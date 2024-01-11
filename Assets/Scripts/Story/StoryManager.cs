@@ -18,9 +18,6 @@ public class StoryManager : MonoBehaviour
     {
         switch (StoryPart)
         {
-            case 1:
-                _aviaryCanvases[1].SetActive(true);
-                break;
 
             case 2:
                 _aviaryCanvases[0].SetActive(true);

@@ -89,6 +89,7 @@ public class Enemy : MonoBehaviour
     private void DestroyWithoutIncreaseScore()
     {
         AudioSource.PlayClipAtPoint(_audioSource.clip, Camera.main.transform.position);
+        WaveController.KillsCount++;
         WaveController.Enemies.Remove(gameObject);
         Destroy(gameObject);
     }
@@ -108,17 +109,24 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (WaveController.KillsCount >= 10)
+        {
+            if (PlayerPrefs.GetInt("Победить в мини-игре 1 раз") == 0)
+            {
+                PlayerPrefs.SetInt("Победить в мини-игре 1 раз", 1);
+            }
+        }
         if (collision.tag == "Player")
         {
-            Destroy(gameObject);
+            DestroyWithoutIncreaseScore();
             AudioSource.PlayClipAtPoint(_playerTouchClip, Camera.main.transform.position);
             if (!_waveController.IsEndlessGame)
             {
                 _progressBar.CurrentValue = 0;
                 _scoreText.text = "0/10";
-                _UIManager.ShowGameOverPanel();
             }
             GameManager.IsGamePaused = true;
+            _UIManager.ShowGameOverPanel();
         }
     }
 }

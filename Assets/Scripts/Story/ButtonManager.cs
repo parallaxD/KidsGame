@@ -17,7 +17,7 @@ public class ButtonManager : MonoBehaviour
 
     void Update()
     {
-        if (_dialogueManager.IsDialogComplete())
+        if (_dialogueManager.IsDialogueComplete())
         {
             SetButtonsActive(true);
         }

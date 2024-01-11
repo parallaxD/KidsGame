@@ -34,6 +34,7 @@ public class WaveController : MonoBehaviour
                 _blackBackGround.SetActive(true);
             }
         }
+        print(KillsCount);
         if (Enemies.Count == 0 && !GameManager.IsGamePaused) _enemySpawner.SpawnEnemy();
         lastSpawnTime += Time.deltaTime;
     }
