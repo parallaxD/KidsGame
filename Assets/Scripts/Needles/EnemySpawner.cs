@@ -11,10 +11,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject _player;
 
 
-    private void Start()
-    {
-        SpawnEnemy();
-    }
 
     public void SpawnEnemy()
     {
@@ -49,5 +45,6 @@ public class EnemySpawner : MonoBehaviour
             Random.Range(bounds.min.x, bounds.max.x),
             Random.Range(bounds.min.y, bounds.max.y));
     }
+
 
 }

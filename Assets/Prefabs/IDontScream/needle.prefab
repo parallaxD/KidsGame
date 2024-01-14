@@ -102,6 +102,9 @@ MonoBehaviour:
   _speed: 2
   _destroyClip: {fileID: 8300000, guid: 86f383409176aed49866095a9676b7d2, type: 3}
   _playerTouchClip: {fileID: 8300000, guid: fbe311e2a2f4a6f439bc5d8590816001, type: 3}
+  _progressBar: {fileID: 0}
+  _scoreText: {fileID: 0}
+  _waveController: {fileID: 0}
 --- !u!50 &-210366200346322845
 Rigidbody2D:
   serializedVersion: 4

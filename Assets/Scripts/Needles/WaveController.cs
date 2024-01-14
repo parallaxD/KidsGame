@@ -23,6 +23,18 @@ public class WaveController : MonoBehaviour
     float lastSpawnTime;
 
 
+    private void Start()
+    {
+        KillsCount = 0;
+        Enemies.Clear();
+        _enemySpawner.SpawnEnemy();
+        if (!IsEndlessGame)
+        {
+            _progressBar.CurrentValue = 0;
+            _scoreText.text = "0/10";
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!IsEndlessGame)
@@ -34,7 +46,6 @@ public class WaveController : MonoBehaviour
                 _blackBackGround.SetActive(true);
             }
         }
-        print(KillsCount);
         if (Enemies.Count == 0 && !GameManager.IsGamePaused) _enemySpawner.SpawnEnemy();
         lastSpawnTime += Time.deltaTime;
     }
@@ -45,5 +56,21 @@ public class WaveController : MonoBehaviour
         KillsCount = 0;
         _progressBar.CurrentValue = 0;
         _scoreText.text = $"0/10";
+    }
+
+    public void HideEnemy()
+    {
+        if (Enemies[0] != null)
+        {
+            Enemies[0].SetActive(false);
+        }
+    }
+
+    public void ShowEnemy()
+    {
+        if (Enemies[0] != null)
+        {
+            Enemies[0].SetActive(true);
+        }
     }
 }
