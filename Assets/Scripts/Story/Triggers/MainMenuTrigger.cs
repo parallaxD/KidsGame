@@ -11,4 +11,5 @@ public class MainMenuTrigger : MonoBehaviour
             PlayerPrefs.SetInt("Зайти в игру первый раз", 1);
         }
     }
+
 }
